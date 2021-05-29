@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;htharoldht.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:true,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:true,&quot;pangu&quot;:true,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
+<meta name="description" content="TeXLive 是一个很好的 TeX 发行版，但是其宏包管理工具做得不太好 —— tlmgr 的 GUI 比较卡顿，而且不能够定期升级。本文提供一个每月自动升级的脚本，可供大家参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TeXLive 宏包每月自动升级">
+<meta property="og:url" content="https://htharoldht.com/texlive-packages-are-automatically-upgraded-every-month/index.html">
+<meta property="og:site_name" content="有龙则灵">
+<meta property="og:description" content="TeXLive 是一个很好的 TeX 发行版，但是其宏包管理工具做得不太好 —— tlmgr 的 GUI 比较卡顿，而且不能够定期升级。本文提供一个每月自动升级的脚本，可供大家参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-09T02:19:07.000Z">
+<meta property="article:modified_time" content="2021-05-29T07:57:25.949Z">
+<meta property="article:author" content="有龙则灵">
+<meta property="article:tag" content="TeXLive">
+<meta property="article:tag" content="SchTasks">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://htharoldht.com/texlive-packages-are-automatically-upgraded-every-month/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;htharoldht.com&#x2F;texlive-packages-are-automatically-upgraded-every-month&#x2F;&quot;,&quot;path&quot;:&quot;texlive-packages-are-automatically-upgraded-every-month&#x2F;&quot;,&quot;title&quot;:&quot;TeXLive 宏包每月自动升级&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>TeXLive 宏包每月自动升级 | 有龙则灵</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">有龙则灵</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">冯唐易老，李广难封</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-留言板"><a href="/guestbook/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>留言板</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">脚本下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E6%BA%90%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">脚本源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E9%98%90%E9%87%8A"><span class="nav-number">3.</span> <span class="nav-text">脚本阐释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-Windows-%E8%87%AA%E5%B8%A6%E7%9A%84-SchTasks-%E5%88%9B%E5%BB%BA%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">利用 Windows 自带的 SchTasks 创建定时任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-tlmgr-%E8%BF%9B%E8%A1%8C%E6%9B%B4%E6%96%B0"><span class="nav-number">3.2.</span> <span class="nav-text">调用 tlmgr 进行更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E5%A4%84%E7%90%86%E7%BC%96%E5%86%99"><span class="nav-number">3.3.</span> <span class="nav-text">批处理编写</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="有龙则灵"
+      src="/images/logo.jpg">
+  <p class="site-author-name" itemprop="name">有龙则灵</p>
+  <div class="site-description" itemprop="description">北京科技大学16级本科信息安全在读。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button site-overview-item animated"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2h0aGFyb2xkaHQ=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;htharoldht"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmh0aGFyb2xkaHRAZ21haWwuY29t" title="E-Mail → mailto:htharoldht@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly91c2VyLnF6b25lLnFxLmNvbS8xOTc5ODY2ODEw" title="QQ → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1979866810"><i class="fa fa-qq fa-fw"></i>QQ</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3UtbG9uZy16ZS1saW5nLTcwL2FjdGl2aXRpZXM=" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;you-long-ze-ling-70&#x2F;activities"><i class="gratipay fa-fw"></i>知乎</span>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://htharoldht.com/texlive-packages-are-automatically-upgraded-every-month/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/logo.jpg">
+      <meta itemprop="name" content="有龙则灵">
+      <meta itemprop="description" content="北京科技大学16级本科信息安全在读。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有龙则灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TeXLive 宏包每月自动升级
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-09 10:19:07" itemprop="dateCreated datePublished" datetime="2018-08-09T10:19:07+08:00">2018-08-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-29 15:57:25" itemprop="dateModified" datetime="2021-05-29T15:57:25+08:00">2021-05-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>439</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <div class="note warning"><p>TeXLive 是一个很好的 TeX 发行版，但是其宏包管理工具做得不太好 —— tlmgr 的 GUI 比较卡顿，而且不能够定期升级。<br>本文提供一个每月自动升级的脚本，可供大家参考。</p>
+</div>
+<span id="more"></span>
+
+<h2 id="脚本下载"><a href="#脚本下载" class="headerlink" title="脚本下载"></a>脚本下载</h2><a class="btn" target="_blank" rel="noopener" href="http://pd10ibe5c.bkt.clouddn.com/TeXLive%E5%AE%8F%E5%8C%85%E6%AF%8F%E6%9C%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0.zip"><i class="fa fa-download fa-lg fa-fw"></i>点击下载</a>
+
+<h2 id="脚本源码"><a href="#脚本源码" class="headerlink" title="脚本源码"></a>脚本源码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">if exist &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot;</span><br><span class="line">:run</span><br><span class="line">echo ============================开始============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto ya) else (goto n)</span><br><span class="line">:ya</span><br><span class="line">call tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">echo ============================更新tlmgr============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">call tlmgr update --self</span><br><span class="line">echo ============================显示待更新的宏包以及可自动安装的项============================</span><br><span class="line">call tlmgr update --list</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto yb) else (goto n)</span><br><span class="line">:yb</span><br><span class="line">echo ============================更新所有宏包============================</span><br><span class="line">call tlmgr update --all</span><br><span class="line">echo ============================结束============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">pause</span><br><span class="line">:n</span><br></pre></td></tr></table></figure>
+
+<h2 id="脚本阐释"><a href="#脚本阐释" class="headerlink" title="脚本阐释"></a>脚本阐释</h2><h3 id="利用-Windows-自带的-SchTasks-创建定时任务"><a href="#利用-Windows-自带的-SchTasks-创建定时任务" class="headerlink" title="利用 Windows 自带的 SchTasks 创建定时任务"></a>利用 Windows 自带的 SchTasks 创建定时任务</h3><p>第一部分用于将该脚本移动到定时任务的根目录，并创建一个计划任务项。<br>为什么不用 AT 呢？因为 AT 在 Win10 中已经被取缔了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if exist &quot;C:\Windows\Tasks\autoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\TeXLivePackageUpdater.bat&quot;</span><br></pre></td></tr></table></figure>
+
+<p>更多关于计划任务的操作，可以去搜索，也可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuZmxpZ2h0eS5jbi9odG1sL3R1dG9yaWFsLzIwMTcwNDA2XzQ0Mi5odG1s">这篇文章<i class="fa fa-external-link-alt"></i></span>。</p>
+<h3 id="调用-tlmgr-进行更新"><a href="#调用-tlmgr-进行更新" class="headerlink" title="调用 tlmgr 进行更新"></a>调用 tlmgr 进行更新</h3><p>第二部分是调用 tlmgr 进行更新TeXLive宏包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">tlmgr update --self</span><br><span class="line">tlmgr update --list</span><br><span class="line">tlmgr update --all --no-auto-install</span><br></pre></td></tr></table></figure>
+
+<p>以上四条命令分别实现的是<strong>选取宏包源、更新 tlmgr 自身、列出可更新的宏包名、更新所有宏包</strong>。<br>–no-auto-install 实现的是不自动安装。众所周知 TeXLive 是发行几乎所有投稿的宏包，所有每次更新里面都有太多自动安装的宏包。如果你想要这个功能，删掉这个参数即可。</p>
+<p>更多关于 tlmgr 的操作，请参考<span class="exturl" data-url="aHR0cHM6Ly93d3cudHVnLm9yZy90ZXhsaXZlL2RvYy90bG1nci5odG1s">官方文档<i class="fa fa-external-link-alt"></i></span>。</p>
+<h3 id="批处理编写"><a href="#批处理编写" class="headerlink" title="批处理编写"></a>批处理编写</h3><p>代码里面其余部分均是 bat 编程的基本语句，可参考<span class="exturl" data-url="aHR0cHM6Ly9iYWlrZS5iYWlkdS5jb20vaXRlbS8lRTYlODklQjklRTUlQTQlODQlRTclOTAlODYvMTQ0ODYwMD9mcj1hbGFkZGlu">百度百科<i class="fa fa-external-link-alt"></i></span>。</p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>『赞赏是最好的支持与鼓励』</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="有龙则灵 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="有龙则灵 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>有龙则灵
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://htharoldht.com/texlive-packages-are-automatically-upgraded-every-month/" title="TeXLive 宏包每月自动升级">https://htharoldht.com/texlive-packages-are-automatically-upgraded-every-month/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/TeXLive/" rel="tag"># TeXLive</a>
+              <a href="/tags/SchTasks/" rel="tag"># SchTasks</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/latex-and-advanced-applications-under-sublime-text/" rel="next" title="Sublime Text 下的 LaTeX 及高级应用">
+                  Sublime Text 下的 LaTeX 及高级应用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">京ICP备18043046号 </span>
+  </div>
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">有龙则灵</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+  <script class="next-config" data-name="pdf" type="application/json">{&quot;object_url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;pdfobject@2.2.5&#x2F;pdfobject.min.js&quot;,&quot;url&quot;:&quot;&#x2F;lib&#x2F;pdf&#x2F;web&#x2F;viewer.html&quot;}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{&quot;enable&quot;:true,&quot;theme&quot;:&quot;forest&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mermaid@8.9.3&#x2F;dist&#x2F;mermaid.min.js&quot;}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

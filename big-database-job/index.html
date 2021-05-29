@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;htharoldht.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:true,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:true,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:true,&quot;pangu&quot;:true,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script>
+<meta name="description" content="本文主要介绍一下如何配置数据库大作业, 以及如何进行验证。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库大作业">
+<meta property="og:url" content="https://htharoldht.com/big-database-job/index.html">
+<meta property="og:site_name" content="有龙则灵">
+<meta property="og:description" content="本文主要介绍一下如何配置数据库大作业, 以及如何进行验证。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-27-45.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-23-33-06.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-14-52-17.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-14-53-33.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-10-04.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-07-14.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-10-42.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-13-16.png">
+<meta property="og:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-51-07.png">
+<meta property="article:published_time" content="2019-04-13T06:11:31.000Z">
+<meta property="article:modified_time" content="2021-05-29T07:57:25.747Z">
+<meta property="article:author" content="有龙则灵">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="作业">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://htharoldht.com/big-database-job/2019-04-13-15-27-45.png">
+
+
+<link rel="canonical" href="https://htharoldht.com/big-database-job/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;htharoldht.com&#x2F;big-database-job&#x2F;&quot;,&quot;path&quot;:&quot;big-database-job&#x2F;&quot;,&quot;title&quot;:&quot;数据库大作业&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>数据库大作业 | 有龙则灵</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">有龙则灵</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">冯唐易老，李广难封</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-留言板"><a href="/guestbook/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>留言板</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-number">1.</span> <span class="nav-text">拉取镜像到本地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%85-Web-%E7%8E%AF%E5%A2%83"><span class="nav-number">1.1.</span> <span class="nav-text">仅 Web 环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-%E7%8E%AF%E5%A2%83%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">Web 环境和数据库环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">启动环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%85-Web-%E7%8E%AF%E5%A2%83%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="nav-number">2.1.</span> <span class="nav-text">仅 Web 环境的启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-%E7%8E%AF%E5%A2%83%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83%E7%9A%84%E5%90%AF%E5%8A%A8"><span class="nav-number">2.2.</span> <span class="nav-text">Web 环境和数据库环境的启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">环境测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BB%E5%BD%95"><span class="nav-number">3.1.</span> <span class="nav-text">登录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%BE%E5%88%B0"><span class="nav-number">4.</span> <span class="nav-text">签到</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%80%81%E5%B8%88%E5%8F%91%E5%B8%83%E7%AD%BE%E5%88%B0"><span class="nav-number">4.1.</span> <span class="nav-text">老师发布签到</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E7%94%9F%E7%AD%BE%E5%88%B0"><span class="nav-number">4.2.</span> <span class="nav-text">学生签到</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E7%8E%AF%E5%A2%83"><span class="nav-number">5.</span> <span class="nav-text">结束环境</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="有龙则灵"
+      src="/images/logo.jpg">
+  <p class="site-author-name" itemprop="name">有龙则灵</p>
+  <div class="site-description" itemprop="description">北京科技大学16级本科信息安全在读。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button site-overview-item animated"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2h0aGFyb2xkaHQ=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;htharoldht"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmh0aGFyb2xkaHRAZ21haWwuY29t" title="E-Mail → mailto:htharoldht@gmail.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly91c2VyLnF6b25lLnFxLmNvbS8xOTc5ODY2ODEw" title="QQ → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1979866810"><i class="fa fa-qq fa-fw"></i>QQ</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3UtbG9uZy16ZS1saW5nLTcwL2FjdGl2aXRpZXM=" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;you-long-ze-ling-70&#x2F;activities"><i class="gratipay fa-fw"></i>知乎</span>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://htharoldht.com/big-database-job/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/logo.jpg">
+      <meta itemprop="name" content="有龙则灵">
+      <meta itemprop="description" content="北京科技大学16级本科信息安全在读。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="有龙则灵">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库大作业
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-13 14:11:31" itemprop="dateCreated datePublished" datetime="2019-04-13T14:11:31+08:00">2019-04-13</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-29 15:57:25" itemprop="dateModified" datetime="2021-05-29T15:57:25+08:00">2021-05-29</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BD%9C%E4%B8%9A/" itemprop="url" rel="index"><span itemprop="name">作业</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <div class="note warning"><p>本文主要介绍一下如何配置数据库大作业, 以及如何进行验证。</p>
+</div>
+<span id="more"></span>
+
+<h2 id="拉取镜像到本地"><a href="#拉取镜像到本地" class="headerlink" title="拉取镜像到本地"></a>拉取镜像到本地</h2><div class="note danger"><p>注意，以下二者选择其一即可。<br>第一种由于数据库在我电脑上，所以只能在校园网环境下使用。第二种会配置数据库环境，可以独立运行。</p>
+</div>
+
+<h3 id="仅-Web-环境"><a href="#仅-Web-环境" class="headerlink" title="仅 Web 环境"></a>仅 Web 环境</h3><p>以下命令拉取后只包含一个 Web 环境，数据库在我电脑上。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull htharoldht/signin-database <span class="comment"># 仅拉取 Web 环境</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Web-环境和数据库环境"><a href="#Web-环境和数据库环境" class="headerlink" title="Web 环境和数据库环境"></a>Web 环境和数据库环境</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull htharoldht/signin-web <span class="comment"># 拉取 Web 环境</span></span><br><span class="line">docker pull htharoldht/signin-mysql <span class="comment"># 拉取数据库</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动环境"><a href="#启动环境" class="headerlink" title="启动环境"></a>启动环境</h2><h3 id="仅-Web-环境的启动"><a href="#仅-Web-环境的启动" class="headerlink" title="仅 Web 环境的启动"></a>仅 Web 环境的启动</h3><p>在终端里运行以下命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 htharoldht/signin-database</span><br></pre></td></tr></table></figure>
+
+<p><img data-src="2019-04-13-15-27-45.png"><br>其中，这一串数字是容器的 ID，之后结束环境的时候会用到。</p>
+<h3 id="Web-环境和数据库环境的启动"><a href="#Web-环境和数据库环境的启动" class="headerlink" title="Web 环境和数据库环境的启动"></a>Web 环境和数据库环境的启动</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql -d -p 3306:3306 -p 8080:8080 htharoldht/signin-mysql <span class="comment"># 数据库环境的启动</span></span><br><span class="line">docker run --name web --net=container:mysql -d htharoldht/signin-web <span class="comment"># Web 环境的启动</span></span><br></pre></td></tr></table></figure>
+
+<p><img data-src="2019-04-13-23-33-06.png"><br>同样的，这两串数字也会在结束环境的时候用到。</p>
+<h2 id="环境测试"><a href="#环境测试" class="headerlink" title="环境测试"></a>环境测试</h2><p>打开浏览器，浏览以下网址即进入登录界面，其中第一个字段是 docker 宿主机的 IP 地址，如果宿主机就是本机的话，也可以直接使用 <code>127.0.0.1:8080</code>。<br>因为我是在虚拟机中开的环境，物理机中进行的测试，所以使用的是虚拟机的 IP 地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.153.154:8080/SignIn/</span><br></pre></td></tr></table></figure>
+
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>首页为学生登录界面，若是老师，需要点击我是老师。<br><img data-src="2019-04-13-14-52-17.png"></p>
+<h4 id="学生"><a href="#学生" class="headerlink" title="学生"></a>学生</h4><p>用户名和密码如下，任选其一即可登录。</p>
+<table>
+<thead>
+<tr>
+<th align="center">用户名</th>
+<th align="center">密码</th>
+<th></th>
+<th align="center">用户名</th>
+<th align="center">密码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">00127</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">00128</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">12345</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">19991</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">23121</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">44553</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">45678</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">54321</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">55739</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">70557</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">76543</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">98765</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">98988</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h4 id="老师"><a href="#老师" class="headerlink" title="老师"></a>老师</h4><p>老师登录界面和学生的基本一致，只是细节不同：<br><img data-src="2019-04-13-14-53-33.png"><br>用户名和密码如下，任选其一即可登录。</p>
+<table>
+<thead>
+<tr>
+<th align="center">用户名</th>
+<th align="center">密码</th>
+<th></th>
+<th align="center">用户名</th>
+<th align="center">密码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">10101</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">12121</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">15151</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">22222</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">32343</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">33456</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">45565</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">58583</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">76543</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">76766</td>
+<td align="center">123456</td>
+</tr>
+<tr>
+<td align="center">83821</td>
+<td align="center">123456</td>
+<td></td>
+<td align="center">98345</td>
+<td align="center">123456</td>
+</tr>
+</tbody></table>
+<h2 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h2><p>签到之前需要由老师设置签到，而后学生的签到才是有效的。</p>
+<h3 id="老师发布签到"><a href="#老师发布签到" class="headerlink" title="老师发布签到"></a>老师发布签到</h3><p>以下以 <code>10101@123456</code> 为例进行演示。<br>老师登录后将看到如下界面：<br><img data-src="2019-04-13-15-10-04.png"><br>老师需要手动设置相应的课程名编号、课程段编号、学期与年进行发布签到。其课选择的内容如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">课程名编号</th>
+<th align="center">课程段编号</th>
+<th align="center">学期</th>
+<th align="center">年</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CS-101</td>
+<td align="center">1</td>
+<td align="center">Fall</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">CS-101</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">CS-190</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">CS-190</td>
+<td align="center">2</td>
+<td align="center">Spring</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">CS-315</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">CS-319</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">CS-319</td>
+<td align="center">2</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">CS-347</td>
+<td align="center">1</td>
+<td align="center">Fall</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">EE-181</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">MU-199</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">BIO-101</td>
+<td align="center">1</td>
+<td align="center">Summer</td>
+<td align="center">2009</td>
+</tr>
+<tr>
+<td align="center">BIO-301</td>
+<td align="center">1</td>
+<td align="center">Summer</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">FIN-201</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">HIS-351</td>
+<td align="center">1</td>
+<td align="center">Spring</td>
+<td align="center">2010</td>
+</tr>
+<tr>
+<td align="center">PHY-101</td>
+<td align="center">1</td>
+<td align="center">Fall</td>
+<td align="center">2009</td>
+</tr>
+</tbody></table>
+<p>以 <code>CS-101@1@Fall@2009</code> 为例，设置好了以后，点击开始签到，则老师会进入一个缓冲页面：<br><img data-src="2019-04-13-15-07-14.png"><br>当点击查看未签到的学生时，则将会看到所有上该门课的未签到的学生学号和姓名，如下所示：<br><img data-src="2019-04-13-15-10-42.png"></p>
+<h3 id="学生签到"><a href="#学生签到" class="headerlink" title="学生签到"></a>学生签到</h3><p>以下以 <code>123456@123456</code> 为例进行演示。<br>学生登录后将会看到如下界面：<br><img data-src="2019-04-13-15-13-16.png"><br>当学生输入老师要求的相应的课程名编号、课程段编号、学期与年后即可点击签到进行有效的签到。<br>当签到成功时，会显示如下界面：<br><img data-src="2019-04-13-15-51-07.png"><br>否则签到不成功。</p>
+<h2 id="结束环境"><a href="#结束环境" class="headerlink" title="结束环境"></a>结束环境</h2><p>在终端中执行以下命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop 674f36e74</span><br></pre></td></tr></table></figure>
+
+<p>其中，674f36e74 是在签到环境的时候生成的一串数字，不需要所有的数字，只需要前面几位即可。</p>
+<p>注：选择第二种方式的，需要结束两个环境，方法同上。</p>
+<hr>
+<p>至此，整个大作业的演示就已经结束了。</p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>『赞赏是最好的支持与鼓励』</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="有龙则灵 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.png" alt="有龙则灵 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>有龙则灵
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://htharoldht.com/big-database-job/" title="数据库大作业">https://htharoldht.com/big-database-job/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC96aC1IYW5z"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag"># 作业</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/everctf2019-writeup/" rel="prev" title="EverCTF_2019 WriteUp">
+                  <i class="fa fa-chevron-left"></i> EverCTF_2019 WriteUp
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/regal-related-operations/" rel="next" title="瑞格相关操作">
+                  瑞格相关操作 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><span class="exturl" data-url="aHR0cHM6Ly9iZWlhbi5taWl0Lmdvdi5jbg==">京ICP备18043046号 </span>
+  </div>
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">有龙则灵</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+  <script class="next-config" data-name="pdf" type="application/json">{&quot;object_url&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;pdfobject@2.2.5&#x2F;pdfobject.min.js&quot;,&quot;url&quot;:&quot;&#x2F;lib&#x2F;pdf&#x2F;web&#x2F;viewer.html&quot;}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{&quot;enable&quot;:true,&quot;theme&quot;:&quot;forest&quot;,&quot;js&quot;:&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mermaid@8.9.3&#x2F;dist&#x2F;mermaid.min.js&quot;}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
