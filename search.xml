@@ -118,6 +118,36 @@
       </tags>
   </entry>
   <entry>
+    <title>TeXLive 宏包每月自动升级</title>
+    <url>/texlive-packages-are-automatically-upgraded-every-month/</url>
+    <content><![CDATA[<div class="note warning"><p>TeXLive 是一个很好的 TeX 发行版，但是其宏包管理工具做得不太好 —— tlmgr 的 GUI 比较卡顿，而且不能够定期升级。<br>本文提供一个每月自动升级的脚本，可供大家参考。</p>
+</div>
+<span id="more"></span>
+
+<h2 id="脚本下载"><a href="#脚本下载" class="headerlink" title="脚本下载"></a>脚本下载</h2><a class="btn" href="http://pd10ibe5c.bkt.clouddn.com/TeXLive%E5%AE%8F%E5%8C%85%E6%AF%8F%E6%9C%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0.zip"><i class="fa fa-download fa-lg fa-fw"></i>点击下载</a>
+
+<h2 id="脚本源码"><a href="#脚本源码" class="headerlink" title="脚本源码"></a>脚本源码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">if exist &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot;</span><br><span class="line">:run</span><br><span class="line">echo ============================开始============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto ya) else (goto n)</span><br><span class="line">:ya</span><br><span class="line">call tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">echo ============================更新tlmgr============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">call tlmgr update --self</span><br><span class="line">echo ============================显示待更新的宏包以及可自动安装的项============================</span><br><span class="line">call tlmgr update --list</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto yb) else (goto n)</span><br><span class="line">:yb</span><br><span class="line">echo ============================更新所有宏包============================</span><br><span class="line">call tlmgr update --all</span><br><span class="line">echo ============================结束============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">pause</span><br><span class="line">:n</span><br></pre></td></tr></table></figure>
+
+<h2 id="脚本阐释"><a href="#脚本阐释" class="headerlink" title="脚本阐释"></a>脚本阐释</h2><h3 id="利用-Windows-自带的-SchTasks-创建定时任务"><a href="#利用-Windows-自带的-SchTasks-创建定时任务" class="headerlink" title="利用 Windows 自带的 SchTasks 创建定时任务"></a>利用 Windows 自带的 SchTasks 创建定时任务</h3><p>第一部分用于将该脚本移动到定时任务的根目录，并创建一个计划任务项。<br>为什么不用 AT 呢？因为 AT 在 Win10 中已经被取缔了。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if exist &quot;C:\Windows\Tasks\autoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\TeXLivePackageUpdater.bat&quot;</span><br></pre></td></tr></table></figure>
+
+<p>更多关于计划任务的操作，可以去搜索，也可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuZmxpZ2h0eS5jbi9odG1sL3R1dG9yaWFsLzIwMTcwNDA2XzQ0Mi5odG1s">这篇文章<i class="fa fa-external-link-alt"></i></span>。</p>
+<h3 id="调用-tlmgr-进行更新"><a href="#调用-tlmgr-进行更新" class="headerlink" title="调用 tlmgr 进行更新"></a>调用 tlmgr 进行更新</h3><p>第二部分是调用 tlmgr 进行更新TeXLive宏包。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">tlmgr update --self</span><br><span class="line">tlmgr update --list</span><br><span class="line">tlmgr update --all --no-auto-install</span><br></pre></td></tr></table></figure>
+
+<p>以上四条命令分别实现的是<strong>选取宏包源、更新 tlmgr 自身、列出可更新的宏包名、更新所有宏包</strong>。<br>–no-auto-install 实现的是不自动安装。众所周知 TeXLive 是发行几乎所有投稿的宏包，所有每次更新里面都有太多自动安装的宏包。如果你想要这个功能，删掉这个参数即可。</p>
+<p>更多关于 tlmgr 的操作，请参考<span class="exturl" data-url="aHR0cHM6Ly93d3cudHVnLm9yZy90ZXhsaXZlL2RvYy90bG1nci5odG1s">官方文档<i class="fa fa-external-link-alt"></i></span>。</p>
+<h3 id="批处理编写"><a href="#批处理编写" class="headerlink" title="批处理编写"></a>批处理编写</h3><p>代码里面其余部分均是 bat 编程的基本语句，可参考<span class="exturl" data-url="aHR0cHM6Ly9iYWlrZS5iYWlkdS5jb20vaXRlbS8lRTYlODklQjklRTUlQTQlODQlRTclOTAlODYvMTQ0ODYwMD9mcj1hbGFkZGlu">百度百科<i class="fa fa-external-link-alt"></i></span>。</p>
+]]></content>
+      <categories>
+        <category>LaTeX</category>
+      </categories>
+      <tags>
+        <tag>TeXLive</tag>
+        <tag>SchTasks</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sublime Text 下的 LaTeX 及高级应用</title>
     <url>/latex-and-advanced-applications-under-sublime-text/</url>
     <content><![CDATA[<div class="note warning"><p>Sublime Text 是一个很好的文本编辑器，它的各种方便的功能以及优美的代码高亮让人心旷神怡，相较于其他的编辑器还具有打开速度快的特点，使其在文本编辑器中占有一席之地。<br>那么在 Sublime Text 中如何编辑、编译 LaTeX 呢？又如何将其配置成超越 IDE 的神器呢？本文就是介绍这个的。</p>
@@ -295,36 +325,6 @@
       <tags>
         <tag>Sublime Text</tag>
         <tag>LaTeX</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TeXLive 宏包每月自动升级</title>
-    <url>/texlive-packages-are-automatically-upgraded-every-month/</url>
-    <content><![CDATA[<div class="note warning"><p>TeXLive 是一个很好的 TeX 发行版，但是其宏包管理工具做得不太好 —— tlmgr 的 GUI 比较卡顿，而且不能够定期升级。<br>本文提供一个每月自动升级的脚本，可供大家参考。</p>
-</div>
-<span id="more"></span>
-
-<h2 id="脚本下载"><a href="#脚本下载" class="headerlink" title="脚本下载"></a>脚本下载</h2><a class="btn" href="http://pd10ibe5c.bkt.clouddn.com/TeXLive%E5%AE%8F%E5%8C%85%E6%AF%8F%E6%9C%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0.zip"><i class="fa fa-download fa-lg fa-fw"></i>点击下载</a>
-
-<h2 id="脚本源码"><a href="#脚本源码" class="headerlink" title="脚本源码"></a>脚本源码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@echo off</span><br><span class="line">if exist &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\AutoTeXLivePackageUpdaterMonthly.bat&quot;</span><br><span class="line">:run</span><br><span class="line">echo ============================开始============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto ya) else (goto n)</span><br><span class="line">:ya</span><br><span class="line">call tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">echo ============================更新tlmgr============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">call tlmgr update --self</span><br><span class="line">echo ============================显示待更新的宏包以及可自动安装的项============================</span><br><span class="line">call tlmgr update --list</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">echo 是否更新TeXLive Package？</span><br><span class="line">set Choice=</span><br><span class="line">set /p Choice=请输入：y/n?</span><br><span class="line">IF &quot;%Choice%&quot;==&quot;y&quot; (goto yb) else (goto n)</span><br><span class="line">:yb</span><br><span class="line">echo ============================更新所有宏包============================</span><br><span class="line">call tlmgr update --all</span><br><span class="line">echo ============================结束============================</span><br><span class="line">echo Writen By 有龙则灵_USTB</span><br><span class="line">pause</span><br><span class="line">:n</span><br></pre></td></tr></table></figure>
-
-<h2 id="脚本阐释"><a href="#脚本阐释" class="headerlink" title="脚本阐释"></a>脚本阐释</h2><h3 id="利用-Windows-自带的-SchTasks-创建定时任务"><a href="#利用-Windows-自带的-SchTasks-创建定时任务" class="headerlink" title="利用 Windows 自带的 SchTasks 创建定时任务"></a>利用 Windows 自带的 SchTasks 创建定时任务</h3><p>第一部分用于将该脚本移动到定时任务的根目录，并创建一个计划任务项。<br>为什么不用 AT 呢？因为 AT 在 Win10 中已经被取缔了。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">if exist &quot;C:\Windows\Tasks\autoTeXLivePackageUpdaterMonthly.bat&quot; goto run</span><br><span class="line">move /y %0 &quot;C:\Windows\Tasks&quot;</span><br><span class="line">schtasks /delete /tn &quot;TeXLivePackage Updater Task&quot; /f</span><br><span class="line">schtasks /create /tn &quot;TeXLivePackage Updater Task&quot; /sc monthly /d /st 15:00:00 /tr &quot;C:\Windows\Tasks\TeXLivePackageUpdater.bat&quot;</span><br></pre></td></tr></table></figure>
-
-<p>更多关于计划任务的操作，可以去搜索，也可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuZmxpZ2h0eS5jbi9odG1sL3R1dG9yaWFsLzIwMTcwNDA2XzQ0Mi5odG1s">这篇文章<i class="fa fa-external-link-alt"></i></span>。</p>
-<h3 id="调用-tlmgr-进行更新"><a href="#调用-tlmgr-进行更新" class="headerlink" title="调用 tlmgr 进行更新"></a>调用 tlmgr 进行更新</h3><p>第二部分是调用 tlmgr 进行更新TeXLive宏包。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet</span><br><span class="line">tlmgr update --self</span><br><span class="line">tlmgr update --list</span><br><span class="line">tlmgr update --all --no-auto-install</span><br></pre></td></tr></table></figure>
-
-<p>以上四条命令分别实现的是<strong>选取宏包源、更新 tlmgr 自身、列出可更新的宏包名、更新所有宏包</strong>。<br>–no-auto-install 实现的是不自动安装。众所周知 TeXLive 是发行几乎所有投稿的宏包，所有每次更新里面都有太多自动安装的宏包。如果你想要这个功能，删掉这个参数即可。</p>
-<p>更多关于 tlmgr 的操作，请参考<span class="exturl" data-url="aHR0cHM6Ly93d3cudHVnLm9yZy90ZXhsaXZlL2RvYy90bG1nci5odG1s">官方文档<i class="fa fa-external-link-alt"></i></span>。</p>
-<h3 id="批处理编写"><a href="#批处理编写" class="headerlink" title="批处理编写"></a>批处理编写</h3><p>代码里面其余部分均是 bat 编程的基本语句，可参考<span class="exturl" data-url="aHR0cHM6Ly9iYWlrZS5iYWlkdS5jb20vaXRlbS8lRTYlODklQjklRTUlQTQlODQlRTclOTAlODYvMTQ0ODYwMD9mcj1hbGFkZGlu">百度百科<i class="fa fa-external-link-alt"></i></span>。</p>
-]]></content>
-      <categories>
-        <category>LaTeX</category>
-      </categories>
-      <tags>
-        <tag>TeXLive</tag>
-        <tag>SchTasks</tag>
       </tags>
   </entry>
   <entry>
