@@ -114,7 +114,11 @@ plugins:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   - type: git
-    repo: git@e.coding.net:htharoldht/htharoldht.coding.me/coding-pages.git #Coding 仓库地址
+    repo: git@e.coding.net:htharoldht/htharoldht/coding-pages.git #Coding 仓库地址
+    branch: coding-pages #分支名称
+    message: hexo deploy #提交信息
+  - type: git
+    repo: git@gitee.com:htharoldht/htharoldht.gitee.io.git # Gitee 仓库地址
     branch: coding-pages #分支名称
     message: hexo deploy #提交信息
   - type: git
@@ -177,7 +181,7 @@ backup:
   message: 备份博客
   repository:
     github: git@github.com:htharoldht/github-pages.git,backup # Github 仓库地址
-    # coding: git@e.coding.net:htharoldht/htharoldht.coding.me/coding-pages.git,backup
+    # coding: git@e.coding.net:htharoldht/htharoldht/coding-pages.git,backup
 
 sitemap:
   path: sitemap.xml
