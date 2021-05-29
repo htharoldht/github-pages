@@ -118,7 +118,7 @@ deploy:
     branch: coding-pages #分支名称
     message: hexo deploy #提交信息
   - type: git
-    repo: git@github.com:htharoldht/gituhb-pages.git # Github 仓库地址
+    repo: git@github.com:htharoldht/github-pages.git # Github 仓库地址
     branch: gh-pages #分支名称
     message: hexo deploy #提交信息
 
