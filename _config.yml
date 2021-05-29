@@ -176,7 +176,7 @@ backup:
   theme: NexT
   message: 备份博客
   repository:
-    github: git@github.com:htharoldht/gituhb-pages.git,backup # Github 仓库地址
+    github: git@github.com:htharoldht/github-pages.git,backup # Github 仓库地址
     # coding: git@e.coding.net:htharoldht/htharoldht.coding.me/coding-pages.git,backup
 
 sitemap:
